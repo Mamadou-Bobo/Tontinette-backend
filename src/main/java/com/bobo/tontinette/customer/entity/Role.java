@@ -35,4 +35,8 @@ public class Role {
             }
     )
     private Collection<Privilege> privileges;
+
+    public Role(Long id) {
+        this.id = id;
+    }
 }

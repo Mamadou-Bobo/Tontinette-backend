@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 /**
@@ -29,11 +30,13 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private int phoneNumber;
+    private String phoneNumber;
 
     @Column(name = "user_email")
     @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     private String email;
+
+    private LocalDateTime createdAt;
 
     private boolean isAccountEnabled;
 
@@ -54,4 +57,19 @@ public class User {
             }
     )
     private Collection<Role> roles;
+
+    public User(String firstName,
+                String lastName,
+                String password,
+                String phoneNumber,
+                String email,
+                Collection<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.roles = roles;
+        this.createdAt = LocalDateTime.now();
+    }
 }

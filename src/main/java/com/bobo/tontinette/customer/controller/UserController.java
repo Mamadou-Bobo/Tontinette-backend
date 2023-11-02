@@ -1,9 +1,10 @@
 package com.bobo.tontinette.customer.controller;
 
+import com.bobo.tontinette.customer.dto.UserDTO;
+import com.bobo.tontinette.customer.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import static com.bobo.tontinette.shared.utils.Constant.BASE_API;
 
@@ -13,12 +14,15 @@ import static com.bobo.tontinette.shared.utils.Constant.BASE_API;
  */
 
 @RestController
-@RequestMapping(BASE_API)
+@RequestMapping(BASE_API+"/users/")
 @RequiredArgsConstructor
 public class UserController {
-    @GetMapping("/")
-    public String hello() {
-        return "hello";
+
+    private final UserService userService;
+
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody UserDTO userDTO) {
+        return userService.addUser(userDTO);
     }
 
 }

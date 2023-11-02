@@ -25,4 +25,8 @@ public class Privilege {
 
     @Column(name = "privilege_name")
     private String name;
+
+    public Privilege(String name) {
+        this.name = name;
+    }
 }
