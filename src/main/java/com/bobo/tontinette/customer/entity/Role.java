@@ -39,4 +39,9 @@ public class Role {
     public Role(Long id) {
         this.id = id;
     }
+
+    public Role(String name, Collection<Privilege> privileges) {
+        this.name = name;
+        this.privileges = privileges;
+    }
 }
