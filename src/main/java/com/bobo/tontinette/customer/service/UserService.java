@@ -9,4 +9,5 @@ import org.springframework.http.ResponseEntity;
  */
 public interface UserService {
     ResponseEntity<String> addUser(UserDTO userDTO);
+    ResponseEntity<String> updateUserAccount(UserDTO userDTO);
 }

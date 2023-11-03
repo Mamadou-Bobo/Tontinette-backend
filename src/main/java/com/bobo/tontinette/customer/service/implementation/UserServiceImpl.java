@@ -65,4 +65,27 @@ class UserServiceImpl implements UserService {
                 HttpStatus.CREATED
         );
     }
+
+    @Override
+    public ResponseEntity<String> updateUserAccount(UserDTO userDTO) {
+        if(userRepository.findByPhoneNumber(userDTO.phoneNumber()).isEmpty()) {
+            log.error("User does not exist");
+            return responseHandlerService.handleError("User does not exist", HttpStatus.NOT_FOUND);
+        }
+
+        User user = userRepository.findByPhoneNumber(userDTO.phoneNumber()).get();
+
+        user.setFirstName(userDTO.firstName());
+        user.setLastName(userDTO.lastName());
+        user.setPassword(userDTO.password());
+        user.setEmail(userDTO.email());
+
+        userRepository.save(user);
+
+        return responseHandlerService
+                .handleError(
+                        "User account successfully updated",
+                        HttpStatus.OK
+                );
+    }
 }
