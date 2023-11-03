@@ -40,6 +40,10 @@ class UserServiceImpl implements UserService {
             return responseHandlerService.handleError(message,HttpStatus.CONFLICT);
         }
 
+        if(userRepository.findByEmail(userDTO.email()).isPresent()) {
+            return responseHandlerService.handleError("Email address already exists", HttpStatus.CONFLICT);
+        }
+
         if(userRepository.findByEmail(user.getEmail()).isPresent()) {
             message = "Email address already exists";
             log.error(message);
@@ -77,9 +81,16 @@ class UserServiceImpl implements UserService {
 
         // Make sure the given information match the one on the passport
 
+        // verify that the email is not taken
+
         user.setFirstName(userDTO.firstName());
         user.setLastName(userDTO.lastName());
         user.setPassword(userDTO.password());
+
+        if(userRepository.findByEmail(userDTO.email()).isPresent()) {
+            return responseHandlerService.handleError("Email address already exists", HttpStatus.CONFLICT);
+        }
+
         user.setEmail(userDTO.email());
 
         userRepository.save(user);
