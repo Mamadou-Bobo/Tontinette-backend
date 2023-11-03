@@ -75,6 +75,8 @@ class UserServiceImpl implements UserService {
 
         User user = userRepository.findByPhoneNumber(userDTO.phoneNumber()).get();
 
+        // Make sure the given information match the one on the passport
+
         user.setFirstName(userDTO.firstName());
         user.setLastName(userDTO.lastName());
         user.setPassword(userDTO.password());

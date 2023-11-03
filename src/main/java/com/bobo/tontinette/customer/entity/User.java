@@ -33,7 +33,10 @@ public class User {
     private String phoneNumber;
 
     @Column(name = "user_email")
-    @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
+    @Email(
+            message = "Email is not valid",
+            regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$"
+    )
     private String email;
 
     private LocalDateTime createdAt;
