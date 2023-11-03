@@ -40,10 +40,6 @@ class UserServiceImpl implements UserService {
             return responseHandlerService.handleError(message,HttpStatus.CONFLICT);
         }
 
-        if(userRepository.findByEmail(userDTO.email()).isPresent()) {
-            return responseHandlerService.handleError("Email address already exists", HttpStatus.CONFLICT);
-        }
-
         if(userRepository.findByEmail(user.getEmail()).isPresent()) {
             message = "Email address already exists";
             log.error(message);
