@@ -1,13 +1,38 @@
+server:
+  port: 8080
+  servlet:
+    session:
+      timeout: 1m
+      tracking-modes: cookie
+      cookie:
+        http-only: true
+        secure: false
+        name: JSESSIONID
+        domain: localhost
+        path: /
+        max-age: 600
+        same-site: strict
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/tontinette
     username: root
     password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     generate-ddl: true
     show-sql: true
     hibernate:
       ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+  data:
+    redis:
+      url: redis://localhost:6379
+      host: localhost
+      password: root
+      port: 6379
+  session:
+    timeout: 1m
+    redis:
+      namespace: spring:session
+      flush-mode: on_save
+      cleanup-cron: 0 * * * * *
+      repository-type: indexed
