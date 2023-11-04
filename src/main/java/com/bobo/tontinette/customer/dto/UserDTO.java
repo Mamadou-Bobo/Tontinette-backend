@@ -13,4 +13,7 @@ public record UserDTO(
         String phoneNumber,
         String email,
         Collection<RoleDTO> roles) {
+    public UserDTO(String firstName, String lastName, String phoneNumber, String email) {
+        this(firstName,lastName,null,phoneNumber,email,null);
+    }
 }

@@ -29,4 +29,9 @@ public class UserController {
     public ResponseEntity<String> update(@RequestBody UserDTO userDTO) {
         return userService.updateUserAccount(userDTO);
     }
+
+    @GetMapping("/user")
+    public ResponseEntity<Object> getUser(@RequestBody UserDTO userDTO) {
+        return userService.getUser(userDTO.phoneNumber());
+    }
 }

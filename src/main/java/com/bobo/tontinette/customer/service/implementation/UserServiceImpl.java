@@ -93,4 +93,23 @@ class UserServiceImpl implements UserService {
 
         return ResponseEntity.ok("User account successfully updated");
     }
+
+    @Override
+    public ResponseEntity<Object> getUser(String phoneNumber) {
+        if(userRepository.findByPhoneNumber(phoneNumber).isEmpty()) {
+            log.error("User account not found");
+            return new ResponseEntity<>("User account not found", HttpStatus.NOT_FOUND);
+        }
+
+        User user = userRepository.findByPhoneNumber(phoneNumber).get();
+
+        UserDTO userDTO = new UserDTO(
+                user.getFirstName(),
+                user.getLastName(),
+                user.getPhoneNumber(),
+                user.getEmail()
+        );
+
+        return ResponseEntity.ok(userDTO);
+    }
 }
