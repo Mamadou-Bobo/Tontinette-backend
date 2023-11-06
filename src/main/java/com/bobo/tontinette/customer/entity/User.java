@@ -3,9 +3,15 @@ package com.bobo.tontinette.customer.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * @author Mamadou Bobo on 31/10/2023
@@ -17,7 +23,9 @@ import java.util.Collection;
 @NoArgsConstructor
 @Setter
 @Getter
-public class User {
+@DynamicInsert
+@DynamicUpdate
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,13 +49,21 @@ public class User {
 
     private LocalDateTime createdAt;
 
-    private boolean isAccountEnabled;
+    private boolean isEnabled;
 
-    private boolean isCredentialsExpired;
+    private boolean isCredentialsNonExpired;
 
-    private boolean isAccountExpired;
+    private boolean isAccountNonExpired;
 
-    private boolean isAccountLocked;
+    private boolean isLocked;
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this
+                .roles
+                .stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toSet());
+    }
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

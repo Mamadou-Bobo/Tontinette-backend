@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,6 +24,7 @@ class UserServiceImpl implements UserService {
 
     private final UserDTOMapper userDTOMapper;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public ResponseEntity<String> addUser(UserDTO userDTO) {
@@ -55,6 +57,12 @@ class UserServiceImpl implements UserService {
             log.error(message);
             return new ResponseEntity<>(message,HttpStatus.BAD_REQUEST);
         }
+
+        user.setPassword(passwordEncoder.encode(userDTO.password()));
+        user.setAccountNonExpired(true);
+        user.setLocked(false);
+        user.setEnabled(true);
+        user.setCredentialsNonExpired(true);
 
         userRepository.save(user);
 

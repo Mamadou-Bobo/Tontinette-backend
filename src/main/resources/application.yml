@@ -36,3 +36,7 @@ spring:
       flush-mode: on_save
       cleanup-cron: 0 * * * * *
       repository-type: indexed
+
+custom:
+  max:
+    session: 1

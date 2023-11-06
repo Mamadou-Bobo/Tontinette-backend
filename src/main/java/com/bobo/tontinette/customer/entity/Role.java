@@ -2,7 +2,10 @@ package com.bobo.tontinette.customer.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
@@ -15,7 +18,9 @@ import java.util.Collection;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Role {
+@DynamicInsert
+@DynamicUpdate
+public class Role implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,5 +43,10 @@ public class Role {
 
     public Role(Long id) {
         this.id = id;
+    }
+
+    public Role(String name, Collection<Privilege> privileges) {
+        this.name = name;
+        this.privileges = privileges;
     }
 }

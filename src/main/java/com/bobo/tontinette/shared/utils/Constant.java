@@ -6,7 +6,7 @@ package com.bobo.tontinette.shared.utils;
  */
 public class Constant {
     // api base url
-    public static final String BASE_API = "api/v1";
+    public static final String BASE_API = "/api/v1";
 
     // roles
     public static final String ADMIN = "ROLE_ADMIN";
