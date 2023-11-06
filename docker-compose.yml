@@ -15,6 +15,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
   redis:
     image: redis:alpine
     container_name: redis
@@ -23,3 +24,9 @@ services:
     environment:
       REDIS_HOST: localhost
       REDIS_PASSWORD: root
+
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    ports:
+      - 8001:8001
+
