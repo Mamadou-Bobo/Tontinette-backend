@@ -5,6 +5,11 @@ import jakarta.validation.constraints.Email;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -25,6 +30,7 @@ import java.util.stream.Collectors;
 @Getter
 @DynamicInsert
 @DynamicUpdate
+@EntityListeners(AuditingEntityListener.class)
 public class User implements Serializable {
 
     @Id
@@ -47,7 +53,30 @@ public class User implements Serializable {
     )
     private String email;
 
+    @CreatedDate
+    @Column(
+            nullable = false,
+            updatable = false
+    )
     private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    @Column(
+            insertable = false
+    )
+    private LocalDateTime lastModified;
+
+    @CreatedBy
+    @Column(
+            updatable = false
+    )
+    private Long createdBy;
+
+    @LastModifiedBy
+    @Column(
+            insertable = false
+    )
+    private Long lastModifiedBy;
 
     private boolean isEnabled;
 
@@ -89,6 +118,5 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.roles = roles;
-        this.createdAt = LocalDateTime.now();
     }
 }

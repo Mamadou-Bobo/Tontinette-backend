@@ -1,9 +1,11 @@
 package com.bobo.tontinette.authentication.security;
 
 import com.bobo.tontinette.authentication.utils.handler.CustomLogoutHandler;
+import com.bobo.tontinette.shared.config.ApplicationAuditAware;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
@@ -108,6 +110,11 @@ public class SecurityConfig {
     @Bean
     public SecurityContextRepository securityContextRepository() {
         return new HttpSessionSecurityContextRepository();
+    }
+
+    @Bean
+    public AuditorAware<Long> auditorAware() {
+        return new ApplicationAuditAware();
     }
 
 }
