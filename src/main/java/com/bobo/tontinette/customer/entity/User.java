@@ -84,7 +84,7 @@ public class User implements Serializable {
 
     private boolean isAccountNonExpired;
 
-    private boolean isLocked;
+    private boolean isAccountNonLocked;
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this

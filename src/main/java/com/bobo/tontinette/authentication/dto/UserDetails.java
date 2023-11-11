@@ -32,7 +32,7 @@ public record UserDetails(User user) implements org.springframework.security.cor
 
     @Override
     public boolean isAccountNonLocked() {
-        return this.user.isLocked();
+        return this.user.isAccountNonLocked();
     }
 
     @Override

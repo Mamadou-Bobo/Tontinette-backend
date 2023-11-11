@@ -60,7 +60,7 @@ class UserServiceImpl implements UserService {
 
         user.setPassword(passwordEncoder.encode(userDTO.password()));
         user.setAccountNonExpired(true);
-        user.setLocked(false);
+        user.setAccountNonLocked(true);
         user.setEnabled(true);
         user.setCredentialsNonExpired(true);
 
