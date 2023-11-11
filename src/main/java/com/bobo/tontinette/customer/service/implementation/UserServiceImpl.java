@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * @author Mamadou Bobo on 01/11/2023
  * @project Tontine
@@ -82,19 +84,27 @@ class UserServiceImpl implements UserService {
             return new ResponseEntity<>(message,HttpStatus.NOT_FOUND);
         }
 
-        // Make sure the given information match the one on the passport
-
-        if(userRepository.findByEmail(userDTO.email()).isPresent()) {
-            message = "Email address already exists";
-            log.error(message);
-            return new ResponseEntity<>(message,HttpStatus.NOT_FOUND);
-        }
-
         User user = userRepository.findByPhoneNumber(userDTO.phoneNumber()).get();
 
+        // Make sure the given information match the one on the passport
+
+        // verify if another user is not using the given email address
+        if(!user.getEmail().isEmpty() && !userDTO.email().isEmpty()) {
+            if(userRepository.findByEmail(userDTO.email()).isPresent()) {
+                String existingEmail = userRepository.findByEmail(userDTO.email()).get().getEmail();
+                if(!user.getEmail().equals(existingEmail)) {
+                    message = "Email address already exists";
+                    log.error(message);
+                    return new ResponseEntity<>(message,HttpStatus.CONFLICT);
+                }
+            }
+
+        }
+
+        // should verify if the field is not empty
         user.setFirstName(userDTO.firstName());
         user.setLastName(userDTO.lastName());
-        user.setPassword(userDTO.password());
+        user.setPassword(passwordEncoder.encode(userDTO.password()));
         user.setEmail(userDTO.email());
 
         userRepository.save(user);
@@ -119,5 +129,13 @@ class UserServiceImpl implements UserService {
         );
 
         return ResponseEntity.ok(userDTO);
+    }
+
+    @Override
+    public User findByPhoneNumber(String phoneNumber) {
+        if(userRepository.findByPhoneNumber(phoneNumber).isPresent())
+            return userRepository.findByPhoneNumber(phoneNumber).get();
+
+        return null;
     }
 }

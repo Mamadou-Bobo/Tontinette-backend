@@ -1,6 +1,6 @@
 package com.bobo.tontinette.shared.config;
 
-import com.bobo.tontinette.customer.entity.User;
+import com.bobo.tontinette.authentication.dto.UserDetails;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,7 +12,9 @@ import java.util.Optional;
  * @author Mamadou Bobo on 11/11/2023
  * @project Tontine
  */
+
 public class ApplicationAuditAware implements AuditorAware<Long> {
+
     @Override
     public Optional<Long> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder
@@ -25,8 +27,10 @@ public class ApplicationAuditAware implements AuditorAware<Long> {
             return Optional.empty();
         }
 
-        User user = (User) authentication.getPrincipal();
+        UserDetails user = (UserDetails) authentication.getPrincipal();
 
-        return Optional.ofNullable(user.getId());
+        System.out.println(user.user().getId());
+
+        return Optional.ofNullable(user.user().getId());
     }
 }

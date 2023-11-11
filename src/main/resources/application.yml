@@ -10,7 +10,7 @@ server:
         name: JSESSIONID
         domain: localhost
         path: /
-        max-age: 600
+        max-age: 3600
         same-site: strict
 spring:
   datasource:
